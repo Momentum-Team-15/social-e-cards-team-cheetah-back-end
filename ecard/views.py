@@ -14,25 +14,25 @@ def api_root(request, format=None):
     })
 
 class UserView(generics.ListCreateAPIView):
-    queryset = User.objects.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class CardListCreateView(generics.ListCreateAPIView):
-    queryset = Card.objects.objects.all()
+    queryset = Card.objects.all()
     serializer_class = CardSerializer
 
 class TagListCreateView(generics.ListCreateAPIView):
-    queryset = Tag.objects.objects.all()
+    queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 class CommentListCreateView(generics.ListCreateAPIView):
-    queryset = Comment.objects.objects.all()
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
 class FriendListCreateView(generics.ListCreateAPIView):
-    queryset = Friend.objects.objects.all()
+    queryset = Friend.objects.all()
     serializer_class = FriendSerializer
 
 class FavoriteListCreateView(generics.ListCreateAPIView):
-    queryset = Favorite.objects.objects.all()
+    queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
