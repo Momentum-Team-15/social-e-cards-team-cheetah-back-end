@@ -2,8 +2,8 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from .models import Card, Tag, Comment, Friend, Favorite
-from .serializers import CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
+from .models import User, Card, Tag, Comment, Friend, Favorite
+from .serializers import UserSerializer, CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
 
 # Create your views here.
 
@@ -12,6 +12,10 @@ def api_root(request, format=None):
     return Response({
         'cards': reverse('card_list', request=request, format=format),
     })
+
+class UserView(generics.ListCreateAPIView):
+    queryset = User.objects.objects.all()
+    serializer_class = UserSerializer
 
 class CardListCreateView(generics.ListCreateAPIView):
     queryset = Card.objects.objects.all()
