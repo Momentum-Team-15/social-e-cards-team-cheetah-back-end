@@ -5,8 +5,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=50)
-    bio = models.TextField(max_length=200)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    bio = models.TextField(max_length=200, null=True, blank=True)
     
 
 
@@ -68,11 +68,11 @@ class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.name
 
 class Comment(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True)
-    comment = models.Textfield(max_length=100)
+    comment = models.TextField(max_length=100)
     commentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -89,7 +89,7 @@ TAG_CHOICES = {
 
 class Tag(models.Model):
     type = models.CharField(max_length=50, choices=TAG_CHOICES, null=True, blank=True)
-    tag = models.ManyToManyField(Card, on_delete=models.CASCADE, null=True, blank=True, related_name='tags')
+    tag = models.ManyToManyField(Card, related_name='tags')
 
     def __str__(self):
         return self.type
