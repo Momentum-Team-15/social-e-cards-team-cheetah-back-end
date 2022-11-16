@@ -9,35 +9,35 @@ class User(AbstractUser):
     bio = models.TextField(max_length=200, null=True, blank=True)
     
 
-TEXT_ALIGNMENT_CHOICES = {
+TEXT_ALIGNMENT_CHOICES ={
     ('LEFT', 'LEFT'),
     ('CENTER', 'CENTER'),
     ('RIGHT', 'RIGHT')
 }
 
-FONT_FAMILY_CHOICES = {
-('UBUNTO', 'UBUNTO'),
-('ARIAL', 'ARIAL'),
-('MERRIWEATHER', 'MERRIWEATHER'),
-('RALEWAY', 'RALEWAY')
+FONT_FAMILY_CHOICES ={
+    ('UBUNTO', 'UBUNTO'),
+    ('ARIAL', 'ARIAL'),
+    ('MERRIWEATHER', 'MERRIWEATHER'),
+    ('RALEWAY', 'RALEWAY')
 }
 
-BORDER_STYLE_CHOICES = {
-('SOLID', 'SOLID'),
-('DOTTED', 'DOTTED'),
-('DOUBLE', 'DOUBLE'),
-('GROOVE', 'GROOVE')
+BORDER_STYLE_CHOICES ={
+    ('SOLID', 'SOLID'),
+    ('DOTTED', 'DOTTED'),
+    ('DOUBLE', 'DOUBLE'),
+    ('GROOVE', 'GROOVE')
 }
 
-COLOR_CHOICES = {
-('WHITE', 'WHITE'),
-('RED', 'RED'),
-('ORANGE', 'ORANGE'),
-('YELLOW', 'YELLOW'),
-('BLUE', 'BLUE'),
-('GREEN', 'GREEN'),
-('PURPLE', 'PURPLE'),
-('BLACK', 'BLACK')
+COLOR_CHOICES ={
+    ('WHITE', 'WHITE'),
+    ('RED', 'RED'),
+    ('ORANGE', 'ORANGE'),
+    ('YELLOW', 'YELLOW'),
+    ('BLUE', 'BLUE'),
+    ('GREEN', 'GREEN'),
+    ('PURPLE', 'PURPLE'),
+    ('BLACK', 'BLACK')
 }
 
 class Card(models.Model):
@@ -59,9 +59,6 @@ class Card(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
-        ordering = ['-updated_at']
-
 class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -76,7 +73,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
-TAG_CHOICES = {
+TAG_CHOICES ={
     ('BIRTHDAY', 'BIRTHDAY'),
     ('CHRISTMAS', 'CHRISTMAS'),
     ('WEDDING', 'WEDDING'),
