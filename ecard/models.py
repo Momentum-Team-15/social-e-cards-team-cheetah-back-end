@@ -8,39 +8,39 @@ class User(AbstractUser):
     name = models.CharField(max_length=50, null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
     
-
-TEXT_ALIGNMENT_CHOICES ={
-    ('LEFT', 'LEFT'),
-    ('CENTER', 'CENTER'),
-    ('RIGHT', 'RIGHT')
-}
-
-FONT_FAMILY_CHOICES ={
-    ('UBUNTO', 'UBUNTO'),
-    ('ARIAL', 'ARIAL'),
-    ('MERRIWEATHER', 'MERRIWEATHER'),
-    ('RALEWAY', 'RALEWAY')
-}
-
-BORDER_STYLE_CHOICES ={
-    ('SOLID', 'SOLID'),
-    ('DOTTED', 'DOTTED'),
-    ('DOUBLE', 'DOUBLE'),
-    ('GROOVE', 'GROOVE')
-}
-
-COLOR_CHOICES ={
-    ('WHITE', 'WHITE'),
-    ('RED', 'RED'),
-    ('ORANGE', 'ORANGE'),
-    ('YELLOW', 'YELLOW'),
-    ('BLUE', 'BLUE'),
-    ('GREEN', 'GREEN'),
-    ('PURPLE', 'PURPLE'),
-    ('BLACK', 'BLACK')
-}
-
 class Card(models.Model):
+
+    TEXT_ALIGNMENT_CHOICES =[
+        ('LEFT', 'LEFT'),
+        ('CENTER', 'CENTER'),
+        ('RIGHT', 'RIGHT')
+    ]
+
+    FONT_FAMILY_CHOICES =[
+        ('UBUNTO', 'UBUNTO'),
+        ('ARIAL', 'ARIAL'),
+        ('MERRIWEATHER', 'MERRIWEATHER'),
+        ('RALEWAY', 'RALEWAY')
+    ]
+
+    BORDER_STYLE_CHOICES =[
+        ('SOLID', 'SOLID'),
+        ('DOTTED', 'DOTTED'),
+        ('DOUBLE', 'DOUBLE'),
+        ('GROOVE', 'GROOVE')
+    ]
+
+    COLOR_CHOICES =[
+        ('WHITE', 'WHITE'),
+        ('RED', 'RED'),
+        ('ORANGE', 'ORANGE'),
+        ('YELLOW', 'YELLOW'),
+        ('BLUE', 'BLUE'),
+        ('GREEN', 'GREEN'),
+        ('PURPLE', 'PURPLE'),
+        ('BLACK', 'BLACK')
+    ]
+
     title = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='WHITE')
@@ -73,16 +73,16 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
-TAG_CHOICES ={
-    ('BIRTHDAY', 'BIRTHDAY'),
-    ('CHRISTMAS', 'CHRISTMAS'),
-    ('WEDDING', 'WEDDING'),
-    ('VALENTINES-DAY', 'VALENTINES-DAY'),
-    ('THANK-YOU', 'THANK-YOU'),
-    ('CONDOLENCES', 'CONDOLENCES')
-}
-
 class Tag(models.Model):
+    TAG_CHOICES =[
+        ('BIRTHDAY', 'BIRTHDAY'),
+        ('CHRISTMAS', 'CHRISTMAS'),
+        ('WEDDING', 'WEDDING'),
+        ('VALENTINES-DAY', 'VALENTINES-DAY'),
+        ('THANK-YOU', 'THANK-YOU'),
+        ('CONDOLENCES', 'CONDOLENCES')
+    ]
+
     type = models.CharField(max_length=50,choices=TAG_CHOICES, null=True, blank=True)
     tag = models.ManyToManyField(Card, related_name='tags')
 
