@@ -9,6 +9,25 @@ class User(AbstractUser):
     bio = models.TextField(max_length=200, null=True, blank=True)
     
 
+TEXT_ALIGNMENT_CHOICES = {
+    ('LEFT', 'LEFT'),
+    ('CENTER', 'CENTER'),
+    ('RIGHT', 'RIGHT')
+}
+
+FONT_FAMILY_CHOICES = {
+('UBUNTO', 'UBUNTO'),
+('ARIAL', 'ARIAL'),
+('MERRIWEATHER', 'MERRIWEATHER'),
+('RALEWAY', 'RALEWAY')
+}
+
+BORDER_STYLE_CHOICES = {
+('SOLID', 'SOLID'),
+('DOTTED', 'DOTTED'),
+('DOUBLE', 'DOUBLE'),
+('GROOVE', 'GROOVE')
+}
 
 COLOR_CHOICES = {
 ('WHITE', 'WHITE'),
@@ -21,36 +40,15 @@ COLOR_CHOICES = {
 ('BLACK', 'BLACK')
 }
 
-BORDER_STYLE_CHOICES = {
-('SOLID', 'SOLID'),
-('DOTTED', 'DOTTED'),
-('DOUBLE', 'DOUBLE'),
-('GROOVE', 'GROOVE')
-}
-
-FONT_FAMILY_CHOICES = {
-('UBUNTO', 'UBUNTO'),
-('ARIAL', 'ARIAL'),
-('MERRIWEATHER', 'MERRIWEATHER'),
-('RALEWAY', 'RALEWAY')
-}
-
-TEXT_ALIGNMENT_CHOICES = {
-    ('LEFT', 'LEFT'),
-    ('CENTER', 'CENTER'),
-    ('RIGHT', 'RIGHT')
-}
-
-
 class Card(models.Model):
     title = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='WHITE')
-    border_style = models.CharField(max_length=50, choices=BORDER_STYLE_CHOICES, default='SOLID')
-    border_color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='BLACK')
-    font_family = models.CharField(max_length=50, choices=FONT_FAMILY_CHOICES, default='UBUNTO')
-    font_color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='BLACK')
-    text_alignment = models.CharField(max_length=50, choices=TEXT_ALIGNMENT_CHOICES, default='LEFT')
+    border_style = models.CharField(max_length=50,choices=BORDER_STYLE_CHOICES)
+    border_color = models.CharField(max_length=50,choices=COLOR_CHOICES, default='BLACK')
+    font_family = models.CharField(max_length=50,choices=FONT_FAMILY_CHOICES)
+    font_color = models.CharField(max_length=50,choices=COLOR_CHOICES, default='BLACK')
+    text_alignment = models.CharField(max_length=50,choices=TEXT_ALIGNMENT_CHOICES)
     outer_msg = models.CharField(max_length=200)
     inner_msg = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -88,7 +86,7 @@ TAG_CHOICES = {
 }
 
 class Tag(models.Model):
-    type = models.CharField(max_length=50, choices=TAG_CHOICES, null=True, blank=True)
+    type = models.CharField(max_length=50,choices=TAG_CHOICES, null=True, blank=True)
     tag = models.ManyToManyField(Card, related_name='tags')
 
     def __str__(self):
