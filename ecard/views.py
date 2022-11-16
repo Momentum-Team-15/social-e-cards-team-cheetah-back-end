@@ -17,6 +17,10 @@ class UserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def get_queryset(self):
+        queryset = User.objects.filter(user=self.request.user)
+        return queryset
+
 class CardListCreateView(generics.ListCreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
