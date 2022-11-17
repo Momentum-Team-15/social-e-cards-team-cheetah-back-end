@@ -63,7 +63,7 @@ class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="friends")
 
     def __str__(self):
-        return self.user.name
+        return str(self.user)
 
 class Comment(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True)
