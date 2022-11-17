@@ -60,7 +60,7 @@ class Card(models.Model):
         return self.title
 
 class Friend(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="friends")
 
     def __str__(self):
         return self.user.name
@@ -68,7 +68,7 @@ class Friend(models.Model):
 class Comment(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True)
     comment = models.TextField(max_length=100)
-    commentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="comments")
 
     def __str__(self):
         return self.comment
