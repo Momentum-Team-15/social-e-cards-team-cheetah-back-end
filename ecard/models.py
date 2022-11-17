@@ -88,6 +88,11 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.type
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['type',], name='Unique_tag')
+        ]
 
 class Favorite(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True, related_name='favorites')
