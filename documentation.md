@@ -350,166 +350,175 @@ PUT tags/<int:id>
 }
 ```
 
--------------------  This is where I stopped ------------------
-## Create a new book
-
-Requires authentication.
+## List all comments
 
 ### request
 
-`title` and `author` are required fields.
+Username and password are required.
 
 ```
-POST api/books
+GET <BASE_URL>/comments
 
-{
-   "title": "The Anatomy of Melancholy",
-   "author": "Robert Burton",
-   "publication_year": 1621
-}
 ```
 
 ### response
 
-```
-201 Created
-
-{
-  "pk": 6,
-  "title": "The Anatomy of Melancholy",
-  "author": "Robert Burton",
-  "publication_year": 1621,
-  "featured": false,
-  "reviews": []
-}
-
-```
-
-## Update a book
-
-Requires authentication. Available only to admin users.
-
-### request
-
-```
-
-PATCH api/books/{id}
-
-{
-  "featured": true
-}
-```
-
-### response
-
-```
+```json
 200 OK
 
-{
-  "pk": 6,
-  "title": "The Anatomy of Melancholy",
-  "author": "Robert Burton",
-  "publication_year": 1621,
-  "featured": true,
-  "reviews": []
-}
-```
-
-## Get all reviews for a single book
-
-Requires authentication.
-
-### request
-
-```txt
-GET api/books/{id}/reviews
-
-```
-
-### response
-
-```
-
 [
-  {
-    "pk": 1,
-    "body": "Satan is a compelling hero.",
-    "book": "Paradise Lost",
-    "reviewed_by": "amy"
-  },
-  {
-    ...
-  },
+	{
+		"id": 3,
+		"card": 3,
+		"comment": "This is a comment by user on Ray's bday card!",
+		"commentor": 2
+	},
+	{
+		"id": 2,
+		"card": 3,
+		"comment": "This is a comment on Ray's Birthday card by admin!",
+		"commentor": 1
+	},
+	{
+		"id": 1,
+		"card": 1,
+		"comment": "This is a comment by admin on Autumn 2022 card!",
+		"commentor": 1
+	}
 ]
 
 ```
 
-## Create a review for a single book
-
-Requires authentication.
+## Comment detail page
 
 ### request
 
-```
-POST api/books/{id}/reviews
+Username and password are required.
 
- {
-  "body": "This is the best book ever."
- }
+```
+GET <BASE_URL>/comments/1
 
 ```
 
 ### response
 
-```
-201 Created
+```json
+200 OK
 
 {
-  "pk": 3,
-  "body": "This is the best book ever.",
-  "book": "The Countess of Pembroke's Arcadia",
-  "reviewed_by": "belletrix"
+	"id": 1,
+	"card": 1,
+	"comment": "This is a comment by admin on Autumn 2022 card!",
+	"commentor": 1
 }
 
 ```
 
-## Create a reading record for a book
-
-Requires authentication.
-
-Choices for "reading_state" are:
-
-- "wr" (want to read)
-- "rg" (reading)
-- "rd" (read)
+## List all Friends
 
 ### request
 
-```
-POST api/books/{id}/book_records
+Username and password are required.
 
- {
-  "reading_state": "wr"
- }
+```
+GET <BASE_URL>/friends
 
 ```
 
 ### response
 
+```json
+200 OK
+
+[
+	{
+		"id": 6,
+		"user": 2
+	},
+	{
+		"id": 9,
+		"user": 3
+	}
+]
+
 ```
-201 Created
+
+## Friends detail page
+
+### request
+
+Username and password are required.
+
+```
+GET <BASE_URL>/friends/6
+
+```
+
+### response
+
+```json
+200 OK
 
 {
-  "pk": 15,
-  "book": {
-    "pk": 2,
-    "title": "The Anatomy of Melancholy",
-    "author": "Robert Burton",
-    "publication_year": 1621,
-    "featured": false
-  },
-  "reader": "admin",
-  "reading_state": "rd"
+	"id": 6,
+	"user": 2
+}
+
+
+## List all favorites
+
+### request
+
+Username and password are required.
+
+```
+GET <BASE_URL>/favorites
+
+```
+
+### response
+
+```json
+200 OK
+
+[
+	{
+		"id": 1,
+		"card": 1,
+		"user": 1,
+		"created_at": "2022-11-17T18:50:20.189108Z"
+	},
+	{
+		"id": 2,
+		"card": 2,
+		"user": 1,
+		"created_at": "2022-11-17T19:16:30.587099Z"
+	}
+]
+
+```
+
+## Favorite detail page
+
+### request
+
+Username and password are required.
+
+```
+GET <BASE_URL>/favorites/2
+
+```
+
+### response
+
+```json
+200 OK
+
+{
+	"id": 2,
+	"card": 2,
+	"user": 1,
+	"created_at": "2022-11-17T19:16:30.587099Z"
 }
 
 ```
