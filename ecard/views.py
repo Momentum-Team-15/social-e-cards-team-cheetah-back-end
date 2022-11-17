@@ -40,7 +40,7 @@ class CardListCreateView(generics.ListCreateAPIView):
         #this is to POST a new Card
         serializer.save(user=self.request.user)
 
-class CardDetail(generics.RetrieveUpdateDestroyAPIView):
+class CardDetail(generics.RetrieveUpdateAPIView):
     """
     This Gets, allows to update, and delete a single card 
     """
@@ -50,9 +50,6 @@ class CardDetail(generics.RetrieveUpdateDestroyAPIView):
 class TagListCreateView(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-
-    def get_queryset(self):
-        return Tag.objects.all()
 
 class TagDetail(generics.RetrieveUpdateDestroyAPIView):
     """
