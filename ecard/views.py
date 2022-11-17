@@ -19,7 +19,7 @@ class UserView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        queryset = User.objects.filter(name=self.request.user.name)
+        queryset = User.objects.filter(username=self.request.user)
         return queryset
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -51,7 +51,7 @@ class TagListCreateView(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     
-class TagDetail(generics.RetrieveUpdateDestroyAPIView):
+class TagDetail(generics.RetrieveUpdateAPIView):
     """
     This Gets, allows to update, and delete a single card 
     """
