@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 whitenoise = "*"
 gunicorn = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
