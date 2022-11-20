@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'ecard',
+    "django.contrib.postgres",
+    'drf_multiple_model',
 
 ]
 
