@@ -5,6 +5,9 @@ from rest_framework.reverse import reverse
 from .models import User, Card, Tag, Comment, Friend, Favorite
 from .serializers import UserSerializer, CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
 from django.db.models import Q
+from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
+from itertools import chain
+from drf_multiple_model.views import ObjectMultipleModelAPIView
 
 # Create your views here.
 
@@ -29,6 +32,17 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class UserSearchList(generics.ListAPIView):
+    model = User
+    context_object_name = "quotes"
+    serializer_class= UserSerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        return User.objects.annotate(search=SearchVector("username")).filter(
+            search=query
+        )
+
 class CardListCreateView(generics.ListCreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
@@ -46,6 +60,21 @@ class CardDetail(generics.RetrieveUpdateAPIView):
     """
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+
+class CardSearchList(ObjectMultipleModelAPIView):
+
+    def get_querylist(self):
+        request = self.request
+        query = request.GET.get('q', None)
+
+        if query:
+            queryset = [
+                {'queryset':Card.objects.filter(title=query),'serializer_class':CardSerializer},
+                {'queryset':Tag.objects.filter(type=query),'serializer_class':TagSerializer},
+                {'queryset':User.objects.filter(Q(username=query) | Q(name=query)),'serializer_class':UserSerializer},
+            ]
+
+            return queryset
 
 class TagListCreateView(generics.ListCreateAPIView):
     queryset = Tag.objects.all()

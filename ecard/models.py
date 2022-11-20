@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
-
-
 class User(AbstractUser):
     name = models.CharField(max_length=50, null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
@@ -54,7 +51,6 @@ class Card(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
-    
 
     def __str__(self):
         return self.title

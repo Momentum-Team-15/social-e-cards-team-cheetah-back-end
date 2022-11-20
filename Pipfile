@@ -12,6 +12,7 @@ whitenoise = "*"
 gunicorn = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+django-rest-multiple-models = "*"
 
 [dev-packages]
 
