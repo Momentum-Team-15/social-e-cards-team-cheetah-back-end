@@ -13,6 +13,7 @@ gunicorn = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 django-rest-multiple-models = "*"
+pillow = "*"
 
 [dev-packages]
 
