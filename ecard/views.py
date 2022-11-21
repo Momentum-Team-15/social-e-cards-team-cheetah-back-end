@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from itertools import chain
 from drf_multiple_model.views import ObjectMultipleModelAPIView
-
+from rest_framework import parsers
 # Create your views here.
 
 @api_view(['GET'])
@@ -130,3 +130,12 @@ class FavoriteDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Favorite 
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+
+class UserAvatarView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    parser_classes = [parsers.FileUploadParser]
+
+    def get_object(self):
+        return User.objects.first()
+        #return self.request.user

@@ -4,7 +4,15 @@ from .models import User, Card, Tag, Comment, Friend, Favorite
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','name','bio','username','email')
+        fields = ('id','name','bio','username','email', 'avatar')
+
+    def update(self, instance, validated_data):
+        if "file" in self.initial_data:
+            file = self.initial_data.get("file")
+            instance.avatar.save(file.name, file, save=True)
+            return instance
+        # this call to super is to make sure that update still works for other fields
+        return super().update(instance, validated_data)
 
 class CardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +40,5 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ('id', 'card','user','created_at')
+
+

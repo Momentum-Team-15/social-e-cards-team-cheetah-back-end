@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     name = models.CharField(max_length=50, null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
+    avatar = models.ImageField(upload_to="user_avatars", blank=True, null=True)
+
     
 class Card(models.Model):
 
