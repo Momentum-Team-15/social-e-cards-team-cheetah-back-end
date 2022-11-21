@@ -63,6 +63,66 @@ POST auth/token/login
 
 ------------------------------------------- end of things I didn't touch -----------
 
+## A search for User, Tag, and Cards (Note this is NOT REQUIRED)
+
+This searches for user by their username and name. For tag this searches by there type ("WEDDING","BIRTHDAY","CHRISTMAS", etc..), note for tags to show up th search has to be capitalized. For Cards it searches based on the title of the card. 
+
+Note that the name of the form has to be 'q' for search to work.
+
+### request
+
+```txt
+GET search-all/
+```
+```txt
+Query
+name = q
+value = WEDDING (what is submitted by form)
+```
+
+### response
+
+```json
+{
+	"Card": [
+		{
+			"id": 10,
+			"title": "WEDDING",
+			"user": 2,
+			"border_style": "SOLID",
+			"border_color": "BLACK",
+			"font_family": "UBUNTO",
+			"font_color": "BLACK",
+			"text_alignment": "LEFT",
+			"outer_msg": "blabla",
+			"inner_msg": "yes sir",
+			"created_at": "2022-11-20T19:26:26.739390Z",
+			"updated_at": "2022-11-20T19:26:26.739408Z",
+			"published": false
+		}
+	],
+	"Tag": [
+		{
+			"id": 3,
+			"type": "WEDDING",
+			"tag": [
+				6,
+				8
+			]
+		}
+	],
+	"User": [
+		{
+			"id": 4,
+			"name": null,
+			"bio": "The greatest test v2",
+			"username": "WEDDING",
+			"email": ""
+		}
+	]
+}
+```
+
 ## List all Cards for particular user and published
 
 Requires authentication.
@@ -149,6 +209,37 @@ POST cards/
 	"published": false
 }
 
+```
+
+## Search of user profiles
+
+searches for users based on username and name of users.
+
+Note name of form needs to be q for search to work
+
+### request
+
+```txt
+GET profile/search/
+```
+```txt
+Query
+name = q
+value = test
+```
+
+### response
+
+```json
+[
+	{
+		"id": 2,
+		"name": null,
+		"bio": null,
+		"username": "test",
+		"email": ""
+	}
+]
 ```
 
 ## List user profile
