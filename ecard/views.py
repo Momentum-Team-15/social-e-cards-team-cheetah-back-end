@@ -39,7 +39,7 @@ class UserSearchList(generics.ListAPIView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        return User.objects.annotate(search=SearchVector("username")).filter(
+        return User.objects.annotate(search=SearchVector("username","name")).filter(
             search=query
         )
 
