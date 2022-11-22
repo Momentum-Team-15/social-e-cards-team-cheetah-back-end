@@ -123,7 +123,49 @@ value = WEDDING (what is submitted by form)
 }
 ```
 
-## List all Cards for particular user and published
+## List all Cards for particular user
+Requires authentication.
+### request
+```txt
+GET cards/user/
+```
+### response
+```json
+[
+    {
+        "id": 2,
+        "title": "Test",
+        "user": 1,
+        "border_style": "DOTTED",
+        "border_color": "BLUE",
+        "font_family": "RALEWAY",
+        "font_color": "BLACK",
+        "text_alignment": "CENTER",
+        "outer_msg": "asdasd",
+        "inner_msg": "adasdasd",
+        "created_at": "2022-11-17T12:32:33.657292Z",
+        "updated_at": "2022-11-17T12:32:33.657327Z",
+        "published": false
+    },
+    {
+        "id": 3,
+        "title": "Test2",
+        "user": 1,
+        "border_style": "DOTTED",
+        "border_color": "BLACK",
+        "font_family": "MERRIWEATHER",
+        "font_color": "BLACK",
+        "text_alignment": "RIGHT",
+        "outer_msg": "asdasdsad",
+        "inner_msg": "sasdadsasadsa",
+        "created_at": "2022-11-17T12:32:47.668606Z",
+        "updated_at": "2022-11-17T12:32:47.668642Z",
+        "published": true
+    }
+]
+```
+
+## List all Cards for particular user and all published
 
 Requires authentication.
 
