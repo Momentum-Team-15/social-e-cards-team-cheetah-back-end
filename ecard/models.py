@@ -42,7 +42,7 @@ class Card(models.Model):
 
     title = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='WHITE')
+    background_color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='WHITE')
     border_style = models.CharField(max_length=50,choices=BORDER_STYLE_CHOICES)
     border_color = models.CharField(max_length=50,choices=COLOR_CHOICES, default='BLACK')
     font_family = models.CharField(max_length=50,choices=FONT_FAMILY_CHOICES)
