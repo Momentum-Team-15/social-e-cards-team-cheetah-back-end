@@ -14,6 +14,8 @@ djangorestframework = "*"
 django-cors-headers = "*"
 django-rest-multiple-models = "*"
 pillow = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
