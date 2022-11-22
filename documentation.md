@@ -10,7 +10,7 @@ Requests to endpoints requiring authentication should set the `Authorization` he
 
 POST requests with a body should set the `Content-Type` header to `application/json`.
 
------------------------------------ didn't touch this but i think it will be needed later -------
+Documentation starts here: __________________________________________________________________
 
 ## Register a new user
 
@@ -19,7 +19,7 @@ POST requests with a body should set the `Content-Type` header to `application/j
 Username and password are required.
 
 ```
-POST auth/users
+POST <BASE_URL>/auth/users/
 
 {
   "username": "baby_yoda",
@@ -45,11 +45,11 @@ POST auth/users
 ### request
 
 ```
-POST auth/token/login
+POST <BASE_URL>/auth/token/login/
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "testusername",
+  "password": "testpassword"
 }
 ```
 
@@ -61,7 +61,6 @@ POST auth/token/login
 }
 ```
 
-------------------------------------------- end of things I didn't touch -----------
 
 ## A search for User, Tag, and Cards (Note this is NOT REQUIRED)
 
@@ -72,7 +71,7 @@ Note that the name of the form has to be 'q' for search to work.
 ### request
 
 ```txt
-GET search-all/
+GET <BASE_URL>/search-all/
 ```
 ```txt
 Query
@@ -127,7 +126,7 @@ value = WEDDING (what is submitted by form)
 Requires authentication.
 ### request
 ```txt
-GET cards/user/
+GET <BASE_URL>/cards/user/
 ```
 ### response
 ```json
@@ -172,7 +171,7 @@ Requires authentication.
 ### request
 
 ```txt
-GET cards/
+GET <BASE_URL>/cards/
 ```
 
 ### response
@@ -218,7 +217,7 @@ Requires authentication.
 ### request
 
 ```txt
-POST cards/
+POST <BASE_URL>/cards/
 ```
 ```json
 {
@@ -260,7 +259,7 @@ Requires authentication.
 ### request
 
 ```txt
-GET cards/<int:pk>
+GET <BASE_URL>/cards/<int:pk>/
 ```
 
 ### response
@@ -291,7 +290,7 @@ Note name of form needs to be q for search to work
 ### request
 
 ```txt
-GET profile/search/
+GET <BASE_URL>/profile/search/
 ```
 ```txt
 Query
@@ -320,7 +319,7 @@ Requires authentication.
 ### request
 
 ```txt
-GET profile/
+GET <BASE_URL>/profile/
 ```
 
 
@@ -345,7 +344,7 @@ Requires authentication.
 ### request
 
 ```txt
-GET profile/<int:id>
+GET <BASE_URL>profile/<int:id>/
 ```
 
 ### response
@@ -369,7 +368,7 @@ Requires authentication. NOTE THAT username is required in order to update other
 ### request
 
 ```txt
-PUT profile/<int:id>
+PUT <BASE_URL>/profile/<int:id>
 ```
 ```json
 {
@@ -402,7 +401,7 @@ Requires authentication. Be aware the user should then be forced to sign in.  NO
 ### request
 
 ```txt
-DELETE profile/<int:id>
+DELETE <BASE_URL>/profile/<int:id>
 ```
 ```json
 {
@@ -423,7 +422,7 @@ DELETE profile/<int:id>
 ### request
 
 ```txt
-GET tags/
+GET <BASE_URL>/tags/
 ```
 
 ### response
@@ -446,7 +445,7 @@ Note that in [] should be id number of card
 ### request
 
 ```txt
-POST tags/
+POST <BASE_URL>/tags/
 ```
 ```json
 {
@@ -472,7 +471,7 @@ POST tags/
 ### request
 
 ```txt
-GET tags/<int:id>
+GET <BASE_URL>/tags/<int:id>/
 ```
 ### response
 
@@ -491,7 +490,7 @@ GET tags/<int:id>
 ### request
 
 ```txt
-PUT tags/<int:id>
+PUT <BASE_URL>/tags/<int:id>/
 ```
 ```json
 {
@@ -519,7 +518,7 @@ PUT tags/<int:id>
 Username and password are required.
 
 ```
-GET <BASE_URL>/comments
+GET <BASE_URL>/comments/
 
 ```
 
@@ -558,7 +557,7 @@ GET <BASE_URL>/comments
 Username and password are required.
 
 ```
-GET <BASE_URL>/comments/1
+GET <BASE_URL>/comments/1/
 
 ```
 
@@ -583,7 +582,7 @@ GET <BASE_URL>/comments/1
 Username and password are required.
 
 ```
-GET <BASE_URL>/friends
+GET <BASE_URL>/friends/
 
 ```
 
@@ -612,7 +611,7 @@ GET <BASE_URL>/friends
 Username and password are required.
 
 ```
-GET <BASE_URL>/friends/6
+GET <BASE_URL>/friends/6/
 
 ```
 
@@ -625,7 +624,7 @@ GET <BASE_URL>/friends/6
 	"id": 6,
 	"user": 2
 }
-
+```
 
 ## List all favorites
 
@@ -634,7 +633,7 @@ GET <BASE_URL>/friends/6
 Username and password are required.
 
 ```
-GET <BASE_URL>/favorites
+GET <BASE_URL>/favorites/
 
 ```
 
@@ -667,7 +666,7 @@ GET <BASE_URL>/favorites
 Username and password are required.
 
 ```
-GET <BASE_URL>/favorites/2
+GET <BASE_URL>/favorites/2/
 
 ```
 
