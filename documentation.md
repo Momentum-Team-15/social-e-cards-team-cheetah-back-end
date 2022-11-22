@@ -253,6 +253,35 @@ POST cards/
 
 ```
 
+## Look at cards details
+
+Requires authentication. 
+
+### request
+
+```txt
+GET cards/<int:pk>
+```
+
+### response
+```json
+{
+	"id": 7,
+	"title": "example",
+	"user": 1,
+	"border_style": "SOLID",
+	"border_color": "BLACK",
+	"font_family": "UBUNTO",
+	"font_color": "BLACK",
+	"text_alignment": "LEFT",
+	"outer_msg": "blabla",
+	"inner_msg": "yes sir",
+	"created_at": "2022-11-17T18:13:32.950733Z",
+	"updated_at": "2022-11-17T18:13:32.950747Z",
+	"published": false
+}
+```
+
 ## Search of user profiles
 
 searches for users based on username and name of users.
@@ -309,7 +338,7 @@ GET profile/
 ]
 ```
 
-## To update a user profile
+## To look at info in a user profile
 
 Requires authentication.
 

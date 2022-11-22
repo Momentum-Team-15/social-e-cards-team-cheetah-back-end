@@ -21,4 +21,6 @@ urlpatterns = [
     path('accounts/', include('registration.backends.simple.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('', include('ecard.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ]

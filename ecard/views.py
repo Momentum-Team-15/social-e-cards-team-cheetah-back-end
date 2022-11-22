@@ -32,6 +32,9 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def get_object(self):
+        return self.request.user
+
 class UserSearchList(generics.ListAPIView):
     model = User
     context_object_name = "quotes"
