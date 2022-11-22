@@ -15,6 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 class CardSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+
     class Meta:
         model = Card
         fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published')
@@ -31,6 +33,9 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'card','comment','commentor')
 
 class FriendSerializer(serializers.ModelSerializer):
+    #using this one as a test
+    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+
     class Meta:
         model = Friend
         fields = ('id', 'user',)
