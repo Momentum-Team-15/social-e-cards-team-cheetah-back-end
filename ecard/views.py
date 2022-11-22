@@ -9,6 +9,7 @@ from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from itertools import chain
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from rest_framework import parsers
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 @api_view(['GET'])
@@ -20,6 +21,7 @@ def api_root(request, format=None):
 class UserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = User.objects.filter(username=self.request.user)
@@ -31,6 +33,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
@@ -49,6 +52,7 @@ class UserSearchList(generics.ListAPIView):
 class CardUser(generics.ListCreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user)
@@ -74,6 +78,7 @@ class CardDetail(generics.RetrieveUpdateAPIView):
     """
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
 
 class CardSearchList(ObjectMultipleModelAPIView):
 
@@ -118,6 +123,7 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class FriendListCreateView(generics.ListCreateAPIView):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
+    permission_classes = [IsAuthenticated]
 
     #associating the user who is creating this Friend
     def perform_create(self, serializer):
@@ -127,10 +133,12 @@ class FriendDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Friend 
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
+    permission_classes = [IsAuthenticated]
 
 class FavoriteListCreateView(generics.ListCreateAPIView):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
 
     #filter favorites by the logged in user
     def get_queryset(self):
@@ -144,11 +152,13 @@ class FavoriteDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Favorite 
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
 
 class UserAvatarView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     parser_classes = [parsers.FileUploadParser]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return User.objects.first()
