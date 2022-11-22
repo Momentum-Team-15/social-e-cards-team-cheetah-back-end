@@ -43,6 +43,17 @@ class UserSearchList(generics.ListAPIView):
             search=query
         )
 
+class CardUser(generics.ListCreateAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+    
+    def get_queryset(self):
+        return Card.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        #this is to POST a new Card
+        serializer.save(user=self.request.user)
+
 class CardListCreateView(generics.ListCreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
