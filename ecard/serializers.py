@@ -2,9 +2,12 @@ from rest_framework import serializers
 from .models import User, Card, Tag, Comment, Friend, Favorite
 
 class UserSerializer(serializers.ModelSerializer):
+    cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ('id','name','bio','username','email', 'avatar')
+        fields = ('id','name','bio','username','email', 'avatar', 'cards', 'comments')
 
     def update(self, instance, validated_data):
         if "file" in self.initial_data:
@@ -15,11 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 class CardSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    user = serializers.SlugRelatedField(slug_field="username", read_only=True)
+    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Card
-        fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published')
+        fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published', 'comments')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +32,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    commentor = serializers.ReadOnlyField(source='commentor.username')
+
     class Meta:
         model = Comment
         fields = ('id', 'card','comment','commentor')

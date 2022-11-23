@@ -41,7 +41,7 @@ class Card(models.Model):
     ]
 
     title = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='cards')
     background_color = models.CharField(max_length=50, choices=COLOR_CHOICES, default='WHITE')
     border_style = models.CharField(max_length=50,choices=BORDER_STYLE_CHOICES)
     border_color = models.CharField(max_length=50,choices=COLOR_CHOICES, default='BLACK')
@@ -64,12 +64,16 @@ class Friend(models.Model):
         return str(self.user)
 
 class Comment(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
     comment = models.TextField(max_length=100)
-    commentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="comments")
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return self.comment
+
+    class Meta:
+        ordering = ['created_at']
 
 class Tag(models.Model):
     TAG_CHOICES =[

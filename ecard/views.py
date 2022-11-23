@@ -9,7 +9,7 @@ from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from itertools import chain
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from rest_framework import parsers
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 # Create your views here.
 
 @api_view(['GET'])
@@ -110,15 +110,17 @@ class TagDetail(generics.RetrieveUpdateAPIView):
 class CommentListCreateView(generics.ListCreateAPIView): 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     #associating the user who is creating this Comment
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(commentor=self.request.user)
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     #this gets, allows to update, and delete a single Comment 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class FriendListCreateView(generics.ListCreateAPIView):
     queryset = Friend.objects.all()
