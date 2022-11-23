@@ -20,7 +20,6 @@ path('friends/', views.FriendListCreateView.as_view(), name='friend-list'),
 path('friends/<int:pk>/', views.FriendDetailView.as_view(), name='friend-detail'),
 path('favorites/', views.FavoriteListCreateView.as_view(), name='favorite-list'),
 path('favorites/<int:pk>/', views.FavoriteDetailView.as_view(), name='favorite-detail'),
-# No djsoer, but keeping this path since it'll be this eventually
 path("auth/users/me/avatar/", views.UserAvatarView.as_view(), name='user_avatar'),
 path('cards/user/', views.CardUser.as_view(),name='cards-user'),
 
