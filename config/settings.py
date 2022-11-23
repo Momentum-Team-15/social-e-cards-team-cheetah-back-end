@@ -16,6 +16,7 @@ from corsheaders.defaults import default_headers
 env = environ.Env(
     DEBUG=(bool, False),
 	RENDER=(bool, False),
+    USE_S3=(bool, False)
 )
 
 environ.Env.read_env()
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
     'djoser',
     'ecard',
     "django.contrib.postgres",
@@ -134,7 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -142,11 +144,11 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-if not DEBUG: 
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR/ "media"
+
+if not DEBUG: 
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -176,3 +178,32 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-disposition',
 ]
+
+DJOSER = {
+    'SERIALIZERS': {
+        'current_user': 'api.serializers.UserSerializer'
+    },
+}
+
+# Env vars for S3
+if env('USE_S3'):
+    # These are necessary for AWS / make sure these are set in production as well
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+
+    # https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+    # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+    # This line sets your default permissions to public read-only
+    AWS_DEFAULT_ACL = 'public-read'
+
+    # These are optional
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_QUERYSTRING_AUTH = False
+
+    # This is for django-storages with boto3
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

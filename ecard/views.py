@@ -101,7 +101,7 @@ class TagListCreateView(generics.ListCreateAPIView):
     
 class TagDetail(generics.RetrieveUpdateAPIView):
     """
-    This Gets, allows to update, and delete a single card 
+    This Gets, allows to update, and delete a single Tag 
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -161,5 +161,5 @@ class UserAvatarView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        return User.objects.first()
-        #return self.request.user
+        #return User.objects.first()
+        return self.request.user
