@@ -16,6 +16,8 @@ django-rest-multiple-models = "*"
 pillow = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+boto3 = "*"
+django-storages = "*"
 
 [dev-packages]
 
