@@ -97,6 +97,6 @@ class Tag(models.Model):
         ]
 
 class Favorite(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True, related_name='favorites')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='favorites')
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='favorites')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
     created_at = models.DateTimeField(auto_now_add=True)
