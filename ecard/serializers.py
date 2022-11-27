@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Card, Tag, Comment, Friendship, Favorite
+from .models import User, Card, Tag, Comment, Friend, Favorite
 
 class UserSerializer(serializers.ModelSerializer):
     cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -39,12 +39,12 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'card','comment','commentor')
 
 class FriendSerializer(serializers.ModelSerializer):
-    current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    #using this one as a test
+    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
     class Meta:
-        model = Friendship
-        fields = ('id', 'current_user', 'friend')
+        model = Friend
+        fields = ('id', 'user',)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
