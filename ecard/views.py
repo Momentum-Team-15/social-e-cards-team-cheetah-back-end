@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from .models import User, Card, Tag, Comment, Friend, Favorite
+from .models import User, Card, Tag, Comment, Friendship, Favorite
 from .serializers import UserSerializer, CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
@@ -123,17 +123,21 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 class FriendListCreateView(generics.ListCreateAPIView):
-    queryset = Friend.objects.all()
+    queryset = Friendship.objects.all()
     serializer_class = FriendSerializer
     permission_classes = [IsAuthenticated]
 
     #associating the user who is creating this Friend
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(current_user=self.request.user)
+
+    #filter friends by the logged in user
+    def get_queryset(self):
+        return self.request.user.friendships.all()
 
 class FriendDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Friend 
-    queryset = Friend.objects.all()
+    queryset = Friendship.objects.all()
     serializer_class = FriendSerializer
     permission_classes = [IsAuthenticated]
 

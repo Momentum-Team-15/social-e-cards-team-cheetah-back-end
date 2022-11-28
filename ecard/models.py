@@ -57,11 +57,13 @@ class Card(models.Model):
     def __str__(self):
         return self.title
 
-class Friend(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="friends")
+class Friendship(models.Model):
+    current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_users")
+    friend = models.ManyToManyField(User, related_name="friendships")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.current_user)
 
 class Comment(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
