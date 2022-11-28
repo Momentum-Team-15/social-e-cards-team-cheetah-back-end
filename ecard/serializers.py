@@ -40,8 +40,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class FriendSerializer(serializers.ModelSerializer):
     current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    card = CardSerializer()
+    friend = serializers.SlugRelatedField(slug_field="username")
+    card = CardSerializer(read_only=True)
 
     class Meta:
         model = Friendship
