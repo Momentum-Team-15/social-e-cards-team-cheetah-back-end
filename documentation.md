@@ -61,6 +61,20 @@ POST <BASE_URL>/auth/token/login/
 }
 ```
 
+## Log out
+Note must be logged in 
+
+### request
+
+```
+POST <BASE_URL>/auth/token/logout/
+```
+
+### response
+Nothing is returned and user will need to log in to get info
+```json
+
+```
 
 ## A search for User, Tag, and Cards (Note this is NOT REQUIRED)
 
