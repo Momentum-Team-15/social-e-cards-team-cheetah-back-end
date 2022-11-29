@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'ecard',
     "django.contrib.postgres",
     'drf_multiple_model',
+    'django_extensions',
 
 ]
 

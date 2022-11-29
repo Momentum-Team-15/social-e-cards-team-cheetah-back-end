@@ -18,6 +18,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 boto3 = "*"
 django-storages = "*"
+django-extensions = "*"
 
 [dev-packages]
 
