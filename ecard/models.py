@@ -68,7 +68,7 @@ class Friendship(models.Model):
         ]
 
     def __str__(self):
-        return str(self.user)
+        return f"{self.current_user} is friends with {self.friend}"
 
 class Comment(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
