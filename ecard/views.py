@@ -149,10 +149,11 @@ class FriendListCreateView(generics.ListCreateAPIView):
             return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
 class FriendDetailView(generics.RetrieveDestroyAPIView):
-    #this gets and deletes a single Friend 
+    #this gets and deletes a single Friend
     queryset = Friendship.objects.all()
     serializer_class = FriendSerializer
     permission_classes = [IsAuthenticated]
+
 
 class FavoriteListCreateView(generics.ListCreateAPIView):
     queryset = Favorite.objects.all()
