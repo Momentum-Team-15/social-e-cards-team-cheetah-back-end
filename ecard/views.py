@@ -43,7 +43,8 @@ class UserSearchList(generics.ListAPIView):
     model = User
     context_object_name = "quotes"
     serializer_class= UserSerializer
-
+    permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
         query = self.request.GET.get("q")
         return User.objects.annotate(search=SearchVector("username","name")).filter(
@@ -65,7 +66,8 @@ class CardUser(generics.ListCreateAPIView):
 class CardListCreateView(generics.ListAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-
+    permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
         return Card.objects.filter(Q(user=self.request.user) | Q(published=True))
 
@@ -82,7 +84,7 @@ class CardDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
 
 class CardSearchList(ObjectMultipleModelAPIView):
-
+    permission_classes = [IsAuthenticated]
     def get_querylist(self):
         request = self.request
         query = request.GET.get('q', None)
@@ -99,6 +101,7 @@ class CardSearchList(ObjectMultipleModelAPIView):
 class TagListCreateView(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    permission_classes = [IsAuthenticated]
     
 class TagDetail(generics.RetrieveUpdateAPIView):
     """
@@ -106,6 +109,7 @@ class TagDetail(generics.RetrieveUpdateAPIView):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    permission_classes = [IsAuthenticated]
 
 # ---------------------------------------------------- ray starts here
 class CommentListCreateView(generics.ListCreateAPIView): 
@@ -126,6 +130,7 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class FriendListCreateView(generics.ListCreateAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Friendship.objects.filter(current_user=self.request.user.id)
