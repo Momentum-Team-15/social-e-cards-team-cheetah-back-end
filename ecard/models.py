@@ -57,15 +57,8 @@ class Card(models.Model):
     def __str__(self):
         return self.title
 
-class Friendship(models.Model):
-    current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='curent_users')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['current_user', 'friend'], name='unique_friendship')
-        ]
+class Friend(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="friends")
 
     def __str__(self):
         return str(self.user)

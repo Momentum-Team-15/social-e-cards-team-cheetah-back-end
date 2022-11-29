@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Card, Tag, Comment, Friendship, Favorite
+from .models import User, Card, Tag, Comment, Friend, Favorite
 
 class UserSerializer(serializers.ModelSerializer):
     cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -17,19 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
         # this call to super is to make sure that update still works for other fields
         return super().update(instance, validated_data)
 
-class FriendSerializer(serializers.ModelSerializer):
-    # current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    class Meta:
-        model = Friendship
-        fields = ('id', 'current_user','friend')
-
 class CardSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(slug_field="username", read_only=True)
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Card
-        fields = ('friend','id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published', 'comments', 'background_color')
+        fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published', 'comments', 'background_color')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,6 +37,14 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'card','comment','commentor')
+
+class FriendSerializer(serializers.ModelSerializer):
+    #using this one as a test
+    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+
+    class Meta:
+        model = Friend
+        fields = ('id', 'user',)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

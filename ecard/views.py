@@ -1,8 +1,8 @@
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from .models import User, Card, Tag, Comment, Friendship, Favorite
+from .models import User, Card, Tag, Comment, Friend, Favorite
 from .serializers import UserSerializer, CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
@@ -10,7 +10,6 @@ from itertools import chain
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from django.db import IntegrityError
 # Create your views here.
 
 @api_view(['GET'])
@@ -124,28 +123,17 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 class FriendListCreateView(generics.ListCreateAPIView):
-    queryset = Friendship.objects.all()
+    queryset = Friend.objects.all()
     serializer_class = FriendSerializer
+    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        queryset = Friendship.objects.filter(current_user=self.request.user.id)
-        return queryset
-
+    #associating the user who is creating this Friend
     def perform_create(self, serializer):
-        serializer.save(current_user=self.request.user)
-
-    def create(self, request, *args, **kwargs):
-        try:
-            return super().create(request, *args, **kwargs)
-        except IntegrityError:
-            error_data = {
-                "error": "You are already friends with this user."
-            }
-            return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save(user=self.request.user)
 
 class FriendDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Friend 
-    queryset = Friendship.objects.all()
+    queryset = Friend.objects.all()
     serializer_class = FriendSerializer
     permission_classes = [IsAuthenticated]
 
