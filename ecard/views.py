@@ -62,7 +62,7 @@ class CardUser(generics.ListCreateAPIView):
         #this is to POST a new Card
         serializer.save(user=self.request.user)
 
-class CardListCreateView(generics.ListCreateAPIView):
+class CardListCreateView(generics.ListAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
 
