@@ -14,6 +14,7 @@ Requests to endpoints requiring authentication should set the `Authorization` he
 POST requests with a body should set the `Content-Type` header to `application/json`.
 
 Documentation starts here: __________________________________________________________________
+
 # URLS
 | URL	| Description | Possible request |
 | -----|-----|-----| 
@@ -49,8 +50,7 @@ Base Url for all endpoints:
 Username and password are required fields. Email is optional.
 Token should not be entered or enabled.
 
-method: POST 
-<BASE_URL>/auth/users/
+POST  <BASE_URL>/auth/users/
 
 ```json
 {
@@ -75,8 +75,7 @@ method: POST
 #### request:
 Username and password are required fields.
 
-method: POST
-<BASE_URL>/auth/token/login/
+POST  <BASE_URL>/auth/token/login/
 
 ```json
 {
@@ -99,8 +98,7 @@ method: POST
 Authentication Required.
 Must be logged in.
 
-method: POST
-<BASE_URL>/auth/token/login/
+POST  <BASE_URL>/auth/token/login/
 
 
 #### response:
@@ -116,7 +114,7 @@ Note that the name of the form has to be 'q' for search to work.
 
 #### request:
 ```txt
-GET <BASE_URL>/search-all/
+GET  <BASE_URL>/search-all/
 ```
 ```txt
 Query
@@ -171,8 +169,7 @@ value = WEDDING (what is submitted by form)
 #### request:
 Authentication required.
 
-method: GET 
-<BASE_URL>/cards/user/
+GET  <BASE_URL>/cards/user/
 
 #### response:
 ```json
@@ -217,8 +214,7 @@ method: GET
 #### request:
 Requires authentication.
 
-method: GET 
-<BASE_URL>/cards/
+GET  <BASE_URL>/cards/
 
 #### response:
 ```json
@@ -280,8 +276,7 @@ Requires authentication.
 Title, border_style, font_family, text_alignment, outer_msg, & inner_msg are required fields.
 Background_color, border_color, font_color, published will be set to default if not manually set.
 
-method: POST 
-<BASE_URL>/cards/user/
+POST  <BASE_URL>/cards/user/
 
 ```json
 {
@@ -314,14 +309,24 @@ method: POST
 }
 ```
 
+### Delete a Card:
+
+### request:
+Requires authentication.
+
+DELETE <BASE_URL>/cards/<int:id>
+
+#### response:
+```json
+"No body returned for response"
+```
+
 ### Card detail page:
 
 #### request:
 Requires authentication.
 
-method: GET 
-<BASE_URL>/cards/<int:pk>/
-ex: <BASE_URL>/cards/1/
+GET  <BASE_URL>/cards/<int:pk>
 
 #### response:
 ```json
@@ -351,7 +356,7 @@ Note name of form needs to be q for search to work
 
 #### request:
 ```txt
-GET <BASE_URL>/profile/search/
+GET  <BASE_URL>/profile/search/
 ```
 ```txt
 Query
@@ -377,8 +382,7 @@ value = test
 #### request
 Requires authentication.
 
-method: GET 
-<BASE_URL>/profile/
+GET  <BASE_URL>/profile/
 
 ### response
 ```json
@@ -405,9 +409,7 @@ _________not working/redundant (only works with /me, not pk)__________________
 #### request:
 Requires authentication.
 
-method: GET <BASE_URL>profile/<int:id>/
-ex: <BASE_URL>profile/1/
-
+GET  <BASE_URL>profile/<int:id>/
 
 #### response:
 ```json
@@ -429,8 +431,7 @@ _______________________________________________________________________
 Requires authentication. 
 Username is required.
 
-method: PUT 
-<BASE_URL>/profile/me/
+PUT  <BASE_URL>/profile/me/
 
 ```json
 {
@@ -466,19 +467,17 @@ Requires authentication.
 Be aware the user should then be forced to sign in.  
 NOTE THAT username is required in order to update other attributes
 
-method: DELETE 
-<BASE_URL>/profile/me/
+DELETE  <BASE_URL>/profile/me/
 
 #### response:
 ```json
-No body returned for response
+"No body returned for response"
 ```
 
 ### Details for a tags:
 
 #### request:
-method: GET 
-<BASE_URL>/tags/
+GET  <BASE_URL>/tags/
 
 
 #### response:
@@ -501,8 +500,7 @@ Authentication Required.
 Tag is a reguired field.
 Note that in [] should be id number of card.
 
-method: POST 
-<BASE_URL>/tags/
+POST  <BASE_URL>/tags/
 
 ```json
 {
@@ -525,9 +523,7 @@ method: POST
 ### Get an Individual Tag:
 
 #### request:
-method: GET 
-<BASE_URL>/tags/<int:id>/
-ex: <BASE_URL>/tags/1/
+GET  <BASE_URL>/tags/<int:id>/
 
 #### response:
 ```json
@@ -543,8 +539,7 @@ ex: <BASE_URL>/tags/1/
 ### Editing an Individual Tag:
 
 ### request:
-method: PUT 
-<BASE_URL>/tags/<int:id>/
+PUT  <BASE_URL>/tags/<int:id>/
 
 ```json
 {
@@ -569,8 +564,7 @@ method: PUT
 #### request:
 Username and password are required.
 
-method: GET 
-<BASE_URL>/comments/
+GET  <BASE_URL>/comments/
 
 
 #### response:
@@ -603,9 +597,7 @@ method: GET
 #### request:
 Authenitcation Required.
 
-method: GET 
-<BASE_URL>/comments/<int:id>/
-ex: <BASE_URL>/comments/1/
+GET  <BASE_URL>/comments/<int:id>/
 
 #### response:
 200 OK
@@ -624,8 +616,7 @@ ex: <BASE_URL>/comments/1/
 Authenitcation Required.
 Card and Comment are required fields.
 
-method: POST 
-<BASE_URL>/comments/
+POST  <BASE_URL>/comments/
 
 ```json
 {
@@ -649,14 +640,12 @@ method: POST
 #### request:
 Authenitcation Required.
 
-method: DELETE 
-<BASE_URL>/comments/<int:id>/
-ex: <BASE_URL>/comments/4/
+DELETE  <BASE_URL>/comments/<int:id>/
 
 #### response:
 200 OK
 ```json
-No body returned for response
+"No body returned for response"
 ```
 
 ### List all Friends:
@@ -664,8 +653,7 @@ No body returned for response
 #### request:
 Authentication Required.
 
-method: GET 
-<BASE_URL>/friends/
+GET  <BASE_URL>/friends/
 
 #### response:
 200 OK
@@ -687,9 +675,7 @@ method: GET
 #### request:
 Authentication Required
 
-method: GET
-<BASE_URL>/friends/<int:id>/
-ex: <BASE_URL>/friends/6/
+GET  <BASE_URL>/friends/<int:id>/
 
 #### response:
 200 OK
@@ -706,8 +692,7 @@ ex: <BASE_URL>/friends/6/
 #### request:
 Authentication Required
 
-method: POST
-<BASE_URL>/friends/
+POST  <BASE_URL>/friends/
 
 ```json
 {
@@ -725,33 +710,29 @@ method: POST
 	"friend": 4
 }
 ```
-_______________________not working_______________
+
 ### Delete a Friend:
 
 #### request:
-Authentication Required
+Authentication Required.
+ID is the id of the friendship.
 
-method: DELETE
-<BASE_URL>/friends/<int:id>/
-ex: <BASE_URL>/friends/4/
+DELETE  <BASE_URL>/friends/<int:id>/
 
 #### response:
 ```json
-Body not returned for response
+"No body returned for response"
 ```
-________________________________________________
 
 ### List all favorites:
 
 #### request:
 Username and password are required.
 
-method: GET 
-<BASE_URL>/favorites/
+GET  <BASE_URL>/favorites/
 
 #### response:
 200 OK
-
 ```json
 [
 	{
@@ -774,9 +755,7 @@ method: GET
 #### request:
 Authentication Required.
 
-method: GET 
-<BASE_URL>/favorites/int:id/
-ex: <BASE_URL>/favorites/2/
+GET  <BASE_URL>/favorites/int:id/
 
 #### response:
 200 OK
@@ -793,8 +772,7 @@ ex: <BASE_URL>/favorites/2/
 #### request:
 Authentication Required
 
-method: POST
-<BASE_URL>/favorites/
+POST  <BASE_URL>/favorites/
 
 ```json
 {
@@ -813,19 +791,39 @@ method: POST
 }
 ```
 
-_______________________not working_______________
 ### Delete a Favorite:
 
 #### request:
 Authentication Required
 
-method: DELETE
-<BASE_URL>/favorites/<int:id>/
-ex: <BASE_URL>/favorites/4/
-
+DELETE  <BASE_URL>/favorites/<int:id>/
 
 #### response:
 ```json
-Body not returned for response
+"No body returned for response"
 ```
-________________________________________________
+
+### Upload/Edit an Avatar Image:
+
+#### request:
+Authentication Required.
+
+PATCH  <BASE_URL>/auth/users/me/avatar/
+
+- 'Binary File' should be selected in first drop down > choose file to upload.
+- Headers:
+| Content-Type	| image/jpeg |
+| Content-Disposition| attachment; nameofyourfile.jpeg |
+
+#### response:
+200 OK
+```json
+{
+	"id": 1,
+	"name": "ray",
+	"bio": "this is my bio!",
+	"username": "admin",
+	"email": "email@email.com",
+	"avatar": "https://cheetahbucket2.s3.amazonaws.com/user_avatars/1hector_hQZnOAR.jpeg"
+}
+```
