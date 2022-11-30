@@ -16,10 +16,16 @@ class UserSerializer(serializers.ModelSerializer):
             return instance
         # this call to super is to make sure that update still works for other fields
         return super().update(instance, validated_data)
+class CommentSerializer(serializers.ModelSerializer):
+    commentor = serializers.ReadOnlyField(source='commentor.username')
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'card','comment','commentor')
 
 class CardSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(slug_field="username", read_only=True)
-    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Card
@@ -39,12 +45,6 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'type','tag')
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    commentor = serializers.ReadOnlyField(source='commentor.username')
-
-    class Meta:
-        model = Comment
-        fields = ('id', 'card','comment','commentor')
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
