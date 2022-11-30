@@ -17,7 +17,6 @@ class UserSerializer(serializers.ModelSerializer):
         # this call to super is to make sure that update still works for other fields
         return super().update(instance, validated_data)
 
-
 class CardSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(slug_field="username", read_only=True)
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -28,7 +27,7 @@ class CardSerializer(serializers.ModelSerializer):
 
 class FriendSerializer(serializers.ModelSerializer):
     current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    # friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
     class Meta:
         model = Friendship
