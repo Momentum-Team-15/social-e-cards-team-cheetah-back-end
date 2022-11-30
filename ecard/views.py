@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .models import User, Card, Tag, Comment, Friendship, Favorite
-from .serializers import UserSerializer, CardSerializer, TagSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
+from .serializers import UserSerializer, CardSerializer, TagSerializer, FriendUserSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from itertools import chain
@@ -138,6 +138,11 @@ class FriendListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(current_user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return FriendUserSerializer
+        return self.serializer_class
 
     def create(self, request, *args, **kwargs):
         try:
