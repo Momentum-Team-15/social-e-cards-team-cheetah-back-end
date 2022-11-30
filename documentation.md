@@ -103,7 +103,7 @@ POST  <BASE_URL>/auth/token/login/
 
 #### response:
 ```json
-No body returned for response
+"No body returned for response"
 ```
 
 ### Search for User, Tag, and Cards (Note this is NOT REQUIRED)
