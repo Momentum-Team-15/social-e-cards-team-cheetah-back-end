@@ -75,7 +75,7 @@ class CardListCreateView(generics.ListAPIView):
         #this is to POST a new Card
         serializer.save(user=self.request.user)
 
-class CardDetail(generics.RetrieveUpdateAPIView):
+class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     This Gets, allows to update, and delete a single card 
     """
