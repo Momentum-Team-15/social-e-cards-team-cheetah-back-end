@@ -71,7 +71,7 @@ class Friendship(models.Model):
         return f"{self.current_user} is friends with {self.friend}"
 
 class Comment(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="comments")
     comment = models.TextField(max_length=100)
     commentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
