@@ -22,8 +22,13 @@ class Card(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return self.title
+
+
 
 class Friendship(models.Model):
     current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='curent_users')

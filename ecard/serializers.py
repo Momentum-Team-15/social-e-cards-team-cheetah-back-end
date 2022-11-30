@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
             return instance
         # this call to super is to make sure that update still works for other fields
         return super().update(instance, validated_data)
+
 class CommentSerializer(serializers.ModelSerializer):
     commentor = serializers.ReadOnlyField(source='commentor.username')
 
@@ -31,6 +32,13 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published', 'comments', 'background_color')
 
+class FriendUserSerializer(serializers.ModelSerializer):
+    friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
+
+    class Meta:
+        model = Friendship
+        fields =('__all__')
+
 class FriendSerializer(serializers.ModelSerializer):
     current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
     # friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
@@ -43,9 +51,6 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'type','tag')
-
-
-
 
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
