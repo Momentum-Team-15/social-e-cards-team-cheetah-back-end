@@ -14,79 +14,107 @@ Requests to endpoints requiring authentication should set the `Authorization` he
 POST requests with a body should set the `Content-Type` header to `application/json`.
 
 Documentation starts here: __________________________________________________________________
+# URLS
+| URL	| Description | Possible request |
+| -----|-----|-----| 
+| BASE_URL/auth/users/| register a new user | POST |
+| BASE_URL/auth/token/login/ | log in | POST |
+| BASE_URL/auth/token/logout/ | log out | POST |
+| BASE_URL/search-all/ | (optional)A search for user, tag, and Cards | GET |
+| BASE_URL/cards/user/ | show all card for user logged in | GET, POST |
+| BASE_URL/cards/ | Show all cards that are published and all cards user has created | GET |
+| BASE_URL/cards/int:pk/ | Looks at card detail | GET, PUT, PATCH, DELETE |
+| BASE_URL/profile/search/ | (optional) searches for users based on username and name of user | GET|
+| BASE_URL/profile/ | list logged in user profile | GET |
+| BASE_URL/profile/int:pk/ | detail of logged in user profile | GET, PUT, DELETE |
+| BASE_URL/tags/ | gives tag information | GET, POST |
+| BASE_URL/tags/int:pk/ | editing indiv tag to remove cards from being tagged | GET, PUT |
+| BASE_URL/comments/ | List all comments | GET, POST |
+| BASE_URL/comments/int:pk/ | list comment detail page | GET, PUT, DELETE |
+| BASE_URL/friends/ | list all friends | GET, POST |
+| BASE_URL/friends/int:pk/ | Friends detail page | GET, DELETE |
+| BASE_URL/favorites/ | list all favorite cards | GET, POST |
+| BASE_URL/favorites/int:pk/ | detail about favorited item | GET, DELETE |
 
-## Register a new user
+# Social E-Card Endpoints 
 
-### request
+Base Url for all endpoints: 
+<BASE_URL> : https://ecard-web-service.onrender.com/
 
-Username and password are required.
+## User Authentication
 
-```
-POST <BASE_URL>/auth/users/
+### Register a new user:
 
+#### request:
+Username and password are required fields. Email is optional.
+Token should not be entered or enabled.
+
+method: POST 
+<BASE_URL>/auth/users/
+
+```json
 {
   "username": "baby_yoda",
   "password": "grogu"
 }
 ```
 
-### response
-
-```
+#### response:
 201 Created
 
+```json
 {
   "email": "",
   "username": "baby_yoda",
   "id": 6
 }
-
 ```
 
-## Log In
+### Log In:
 
-### request
+#### request:
+Username and password are required fields.
 
-```
-POST <BASE_URL>/auth/token/login/
+method: POST
+<BASE_URL>/auth/token/login/
 
+```json
 {
   "username": "testusername",
   "password": "testpassword"
 }
 ```
 
-### response
-
+### response:
 ```json
 {
   "auth_token": "c312049c7f034a3d1b52eabc2040b46e094ff34c"
 }
 ```
 
-## Log out
-Note must be logged in 
+### Log out
 
-### request
+#### request:
 
-```
-POST <BASE_URL>/auth/token/logout/
-```
+Authentication Required.
+Must be logged in.
 
-### response
-Nothing is returned and user will need to log in to get info
+method: POST
+<BASE_URL>/auth/token/login/
+
+
+#### response:
 ```json
-
+No body returned for response
 ```
 
-## A search for User, Tag, and Cards (Note this is NOT REQUIRED)
+### Search for User, Tag, and Cards (Note this is NOT REQUIRED)
 
 This searches for user by their username and name. For tag this searches by there type ("WEDDING","BIRTHDAY","CHRISTMAS", etc..), note for tags to show up th search has to be capitalized. For Cards it searches based on the title of the card. 
 
 Note that the name of the form has to be 'q' for search to work.
 
-### request
-
+#### request:
 ```txt
 GET <BASE_URL>/search-all/
 ```
@@ -96,8 +124,7 @@ name = q
 value = WEDDING (what is submitted by form)
 ```
 
-### response
-
+#### response:
 ```json
 {
 	"Card": [
@@ -139,173 +166,190 @@ value = WEDDING (what is submitted by form)
 }
 ```
 
-## List all Cards for particular user
-Requires authentication.
-### request
-```txt
-GET <BASE_URL>/cards/user/
-```
-### response
-```json
-[
-    {
-        "id": 2,
-        "title": "Test",
-        "user": 1,
-        "border_style": "DOTTED",
-        "border_color": "BLUE",
-        "font_family": "RALEWAY",
-        "font_color": "BLACK",
-        "text_alignment": "CENTER",
-        "outer_msg": "asdasd",
-        "inner_msg": "adasdasd",
-        "created_at": "2022-11-17T12:32:33.657292Z",
-        "updated_at": "2022-11-17T12:32:33.657327Z",
-        "published": false
-    },
-    {
-        "id": 3,
-        "title": "Test2",
-        "user": 1,
-        "border_style": "DOTTED",
-        "border_color": "BLACK",
-        "font_family": "MERRIWEATHER",
-        "font_color": "BLACK",
-        "text_alignment": "RIGHT",
-        "outer_msg": "asdasdsad",
-        "inner_msg": "sasdadsasadsa",
-        "created_at": "2022-11-17T12:32:47.668606Z",
-        "updated_at": "2022-11-17T12:32:47.668642Z",
-        "published": true
-    }
-]
-```
+### List all cards of Logged In User:
 
-## List all Cards for particular user and all published
+#### request:
+Authentication required.
 
-Requires authentication.
+method: GET 
+<BASE_URL>/cards/user/
 
-### request
-
-```txt
-GET <BASE_URL>/cards/
-```
-
-### response
-
+#### response:
 ```json
 [
 	{
-		"id": 2,
-		"title": "Test",
-		"user": 1,
-		"border_style": "DOTTED",
-		"border_color": "BLUE",
-		"font_family": "RALEWAY",
+		"id": 11,
+		"title": "Card 5",
+		"user": "admin",
+		"border_style": "SOLID",
+		"border_color": "BLACK",
+		"font_family": "ARIAL",
 		"font_color": "BLACK",
-		"text_alignment": "CENTER",
-		"outer_msg": "asdasd",
-		"inner_msg": "adasdasd",
-		"created_at": "2022-11-17T12:32:33.657292Z",
-		"updated_at": "2022-11-17T12:32:33.657327Z",
-		"published": false
+		"text_alignment": "LEFT",
+		"outer_msg": "Outer Message 5",
+		"inner_msg": "Inner Message 5",
+		"created_at": "2022-11-30T00:47:02.016961Z",
+		"updated_at": "2022-11-30T00:47:33.613417Z",
+		"published": true,
+		"background_color": "WHITE"
 	},
 	{
-		"id": 3,
-		"title": "Test2",
-		"user": 4,
+		"id": 12,
+		"title": "Card 6",
+		"user": "admin",
 		"border_style": "DOTTED",
 		"border_color": "BLACK",
-		"font_family": "MERRIWEATHER",
+		"font_family": "UBUNTO",
 		"font_color": "BLACK",
-		"text_alignment": "RIGHT",
-		"outer_msg": "asdasdsad",
-		"inner_msg": "sasdadsasadsa",
-		"created_at": "2022-11-17T12:32:47.668606Z",
-		"updated_at": "2022-11-17T12:32:47.668642Z",
-		"published": true
-    }
+		"text_alignment": "LEFT",
+		"outer_msg": "Outer Message 6",
+		"inner_msg": "Inner Message 6",
+		"created_at": "2022-11-30T00:47:24.316047Z",
+		"updated_at": "2022-11-30T00:47:24.316067Z",
+		"published": true,
+		"background_color": "WHITE"
+	}
 ]
 ```
-## Add a Card
 
+### List all Cards for logged in user and all published cards:
+
+#### request:
 Requires authentication.
 
-### request
+method: GET 
+<BASE_URL>/cards/
 
-```txt
-POST <BASE_URL>/cards/
+#### response:
+```json
+[
+	{
+		"id": 1,
+		"title": "The first card made",
+		"user": "Corey",
+		"border_style": "DOTTED",
+		"border_color": "BLACK",
+		"font_family": "ARIAL",
+		"font_color": "BLACK",
+		"text_alignment": "LEFT",
+		"outer_msg": "The first card ever made",
+		"inner_msg": "Inner message",
+		"created_at": "2022-11-29T20:27:12.992621Z",
+		"updated_at": "2022-11-29T23:55:39.865951Z",
+		"published": true,
+		"background_color": "WHITE"
+	},
+	{
+		"id": 5,
+		"title": "This is Taylors Card",
+		"user": "Taylor",
+		"border_style": "GROOVE",
+		"border_color": "BLACK",
+		"font_family": "RALEWAY",
+		"font_color": "BLACK",
+		"text_alignment": "LEFT",
+		"outer_msg": "This is a test",
+		"inner_msg": "Taylor's test that is.",
+		"created_at": "2022-11-29T20:36:08.105769Z",
+		"updated_at": "2022-11-29T23:56:35.954497Z",
+		"published": true,
+		"background_color": "WHITE"
+	},
+	{
+		"id": 11,
+		"title": "Card 5",
+		"user": "admin",
+		"border_style": "SOLID",
+		"border_color": "BLACK",
+		"font_family": "ARIAL",
+		"font_color": "BLACK",
+		"text_alignment": "LEFT",
+		"outer_msg": "Outer Message 5",
+		"inner_msg": "Inner Message 5",
+		"created_at": "2022-11-30T00:47:02.016961Z",
+		"updated_at": "2022-11-30T00:47:33.613417Z",
+		"published": true,
+		"background_color": "WHITE"
+	}
+]	
 ```
+### Add a Card:
+
+#### request:
+Requires authentication.
+Title, border_style, font_family, text_alignment, outer_msg, & inner_msg are required fields.
+Background_color, border_color, font_color, published will be set to default if not manually set.
+
+method: POST 
+<BASE_URL>/cards/user/
+
 ```json
 {
-	"title": "example",
+	"title": "Bday Card",
 	"border_style": "SOLID",
 	"font_family": "UBUNTO",
-	"text_alignment": "LEFT",
-	"outer_msg": "blabla",
-	"inner_msg": "yes sir"
+	"text_alignment": "CENTER",
+	"outer_msg": "Happy Birthday!",
+	"inner_msg": "It's your bday!"
 }
 ```
 
-### response
-
+#### response:
 ```json
-
 {
-	"id": 7,
-	"title": "example",
-	"user": 1,
+	"id": 14,
+	"title": "Bday Card",
+	"user": "admin",
 	"border_style": "SOLID",
 	"border_color": "BLACK",
 	"font_family": "UBUNTO",
 	"font_color": "BLACK",
-	"text_alignment": "LEFT",
-	"outer_msg": "blabla",
-	"inner_msg": "yes sir",
-	"created_at": "2022-11-17T18:13:32.950733Z",
-	"updated_at": "2022-11-17T18:13:32.950747Z",
-	"published": false
+	"text_alignment": "CENTER",
+	"outer_msg": "Happy Birthday!",
+	"inner_msg": "It's your bday!",
+	"created_at": "2022-11-30T01:00:36.903553Z",
+	"updated_at": "2022-11-30T01:00:36.903573Z",
+	"published": false,
+	"background_color": "WHITE"
 }
-
 ```
 
-## Look at cards details
+### Card detail page:
 
-Requires authentication. 
+#### request:
+Requires authentication.
 
-### request
+method: GET 
+<BASE_URL>/cards/<int:pk>/
+ex: <BASE_URL>/cards/1/
 
-```txt
-GET <BASE_URL>/cards/<int:pk>/
-```
-
-### response
+#### response:
 ```json
 {
-	"id": 7,
-	"title": "example",
-	"user": 1,
-	"border_style": "SOLID",
+	"id": 1,
+	"title": "The first card made",
+	"user": "Corey",
+	"border_style": "DOTTED",
 	"border_color": "BLACK",
-	"font_family": "UBUNTO",
+	"font_family": "ARIAL",
 	"font_color": "BLACK",
 	"text_alignment": "LEFT",
-	"outer_msg": "blabla",
-	"inner_msg": "yes sir",
-	"created_at": "2022-11-17T18:13:32.950733Z",
-	"updated_at": "2022-11-17T18:13:32.950747Z",
-	"published": false
+	"outer_msg": "The first card ever made",
+	"inner_msg": "Inner message",
+	"created_at": "2022-11-29T20:27:12.992621Z",
+	"updated_at": "2022-11-29T23:55:39.865951Z",
+	"published": true,
+	"background_color": "WHITE"
 }
 ```
 
-## Search of user profiles
+## Search of user profiles:
 
 searches for users based on username and name of users.
 
 Note name of form needs to be q for search to work
 
-### request
-
+#### request:
 ```txt
 GET <BASE_URL>/profile/search/
 ```
@@ -315,8 +359,7 @@ name = q
 value = test
 ```
 
-### response
-
+#### response:
 ```json
 [
 	{
@@ -329,21 +372,46 @@ value = test
 ]
 ```
 
-## List user profile
+### List Logged In User Profile:
 
+#### request
 Requires authentication.
 
-### request
-
-```txt
-GET <BASE_URL>/profile/
-```
-
+method: GET 
+<BASE_URL>/profile/
 
 ### response
-
 ```json
 [
+	{
+		"id": 11,
+		"name": null,
+		"bio": null,
+		"username": "admin",
+		"email": "",
+		"avatar": null,
+		"cards": [
+			11,
+			12,
+			14
+		],
+		"comments": []
+	}
+]
+```
+_________not working/redundant (only works with /me, not pk)__________________
+### See profile of other Users:
+
+#### request:
+Requires authentication.
+
+method: GET <BASE_URL>profile/<int:id>/
+ex: <BASE_URL>profile/1/
+
+
+#### response:
+```json
+
 	{
 		"id": 1,
 		"name": null,
@@ -351,131 +419,102 @@ GET <BASE_URL>/profile/
 		"username": "admin",
 		"email": ""
 	}
-]
-```
-
-## To look at info in a user profile
-
-Requires authentication.
-
-### request
-
-```txt
-GET <BASE_URL>profile/<int:id>/
-```
-
-### response
-
-```json
-
-	{
-		"id": 1,
-		"name": null,
-		"bio": "The greatest example ever",
-		"username": "admin",
-		"email": ""
-	}
 
 ```
+_______________________________________________________________________
 
-## To update a user profile
+### Update Logged In User's profile:
 
-Requires authentication. NOTE THAT username is required in order to update other attributes
+#### request:
+Requires authentication. 
+Username is required.
 
-### request
+method: PUT 
+<BASE_URL>/profile/me/
 
-```txt
-PUT <BASE_URL>/profile/<int:id>
-```
 ```json
 {
-	"id": 1,
-	"name": null,
-	"bio": "The greatest test",
-	"username": "admin",
-	"email": ""
+	"username": "ray",
+	"name": "Ray",
+	"bio": "this is my bio",
+	"email": "email@myemail.com"
 }
 ```
 
 ### response
+```json
+{
+	"id": 11,
+	"name": "Ray",
+	"bio": "this is my bio",
+	"username": "ray",
+	"email": "email@myemail.com",
+	"avatar": null,
+	"cards": [
+		11,
+		12,
+		14
+	],
+	"comments": []
+}
+```
 
+### To delete Logged In User's profile:
+
+#### request:
+Requires authentication. 
+Be aware the user should then be forced to sign in.  
+NOTE THAT username is required in order to update other attributes
+
+method: DELETE 
+<BASE_URL>/profile/me/
+
+#### response:
+```json
+No body returned for response
+```
+
+### Details for a tags:
+
+#### request:
+method: GET 
+<BASE_URL>/tags/
+
+
+#### response:
 ```json
 [
 	{
 		"id": 1,
-		"name": null,
-		"bio": "The greatest test",
-		"username": "admin",
-		"email": ""
-	}
-]
-```
-
-## To delete a user profile
-
-Requires authentication. Be aware the user should then be forced to sign in.  NOTE THAT username is required in order to update other attributes
-
-### request
-
-```txt
-DELETE <BASE_URL>/profile/<int:id>
-```
-```json
-{
-	"username": "admin",
-}
-```
-
-### response
-
-```json
-[
-
-]
-```
-
-## Details for a tags
-
-### request
-
-```txt
-GET <BASE_URL>/tags/
-```
-
-### response
-
-```json
-[
-	{
-		"id": 2,
 		"type": "BIRTHDAY",
 		"tag": [
-			6
+			5
 		]
 	}
 ]
 ```
 
-## Adding a tag
-Note that in [] should be id number of card
+### Adding a tag
 
-### request
+#### request:
+Authentication Required.
+Tag is a reguired field.
+Note that in [] should be id number of card.
 
-```txt
-POST <BASE_URL>/tags/
-```
+method: POST 
+<BASE_URL>/tags/
+
 ```json
 {
 	"tag": [6]
 }
 ```
-### response
-
+#### response:
 ```json
 [
 	{
 		"id": 2,
-		"type": "BIRTHDAY",
+		"type": "null",
 		"tag": [
 			6
 		]
@@ -483,40 +522,37 @@ POST <BASE_URL>/tags/
 ]
 ```
 
-## getting indiv tag
+### Get an Individual Tag:
 
-### request
+#### request:
+method: GET 
+<BASE_URL>/tags/<int:id>/
+ex: <BASE_URL>/tags/1/
 
-```txt
-GET <BASE_URL>/tags/<int:id>/
-```
-### response
-
+#### response:
 ```json
 {
-	"id": 3,
-	"type": null,
+	"id": 1,
+	"type": "BIRTHDAY",
 	"tag": [
-		6
+		5
 	]
 }
 ```
 
-## Editing indiv tag
+### Editing an Individual Tag:
 
-### request
+### request:
+method: PUT 
+<BASE_URL>/tags/<int:id>/
 
-```txt
-PUT <BASE_URL>/tags/<int:id>/
-```
 ```json
 {
 	"tag": [6, 8]
 }
 ```
 
-### response
-
+#### response:
 ```json
 {
 	"id": 3,
@@ -528,86 +564,112 @@ PUT <BASE_URL>/tags/<int:id>/
 }
 ```
 
-## List all comments
+### List all comments:
 
-### request
-
+#### request:
 Username and password are required.
 
-```
-GET <BASE_URL>/comments/
+method: GET 
+<BASE_URL>/comments/
 
-```
 
-### response
-
-```json
+#### response:
 200 OK
-
+```json
 [
-	{
-		"id": 3,
-		"card": 3,
-		"comment": "This is a comment by user on Ray's bday card!",
-		"commentor": 2
-	},
-	{
-		"id": 2,
-		"card": 3,
-		"comment": "This is a comment on Ray's Birthday card by admin!",
-		"commentor": 1
-	},
 	{
 		"id": 1,
 		"card": 1,
-		"comment": "This is a comment by admin on Autumn 2022 card!",
-		"commentor": 1
+		"comment": "Test comment",
+		"commentor": "Taylor"
+	},
+	{
+		"id": 2,
+		"card": 5,
+		"comment": "this is a comment on Taylor's card by admin",
+		"commentor": "admin"
+	},
+	{
+		"id": 3,
+		"card": 2,
+		"comment": "this is a comment on test card by admin",
+		"commentor": "admin"
 	}
 ]
-
 ```
 
-## Comment detail page
+### Comment detail page:
 
-### request
+#### request:
+Authenitcation Required.
 
-Username and password are required.
+method: GET 
+<BASE_URL>/comments/<int:id>/
+ex: <BASE_URL>/comments/1/
 
-```
-GET <BASE_URL>/comments/1/
-
-```
-
-### response
-
-```json
+#### response:
 200 OK
-
+```json
 {
 	"id": 1,
 	"card": 1,
-	"comment": "This is a comment by admin on Autumn 2022 card!",
-	"commentor": 1
+	"comment": "Test comment",
+	"commentor": "Taylor"
 }
-
 ```
 
-## List all Friends
+### Add a Comment:
 
-### request
+#### request:
+Authenitcation Required.
+Card and Comment are required fields.
 
-Username and password are required.
-
-```
-GET <BASE_URL>/friends/
-
-```
-
-### response
+method: POST 
+<BASE_URL>/comments/
 
 ```json
-200 OK
+{
+	"card": 1,
+	"comment": "This is a comment!"
+}
+```
 
+#### response:
+200 OK
+```json
+{
+	"id": 4,
+	"card": 1,
+	"comment": "This is a comment!",
+	"commentor": "ray"
+}
+```
+### Delete a Comment:
+
+#### request:
+Authenitcation Required.
+
+method: DELETE 
+<BASE_URL>/comments/<int:id>/
+ex: <BASE_URL>/comments/4/
+
+#### response:
+200 OK
+```json
+No body returned for response
+```
+
+### List all Friends:
+
+#### request:
+Authentication Required.
+
+method: GET 
+<BASE_URL>/friends/
+
+#### response:
+200 OK
+```json
 [
 	{
 		"id": 6,
@@ -618,24 +680,20 @@ GET <BASE_URL>/friends/
 		"user": 3
 	}
 ]
-
 ```
 
-## Friends detail page
+### Friends detail page:
 
-### request
+#### request:
+Authentication Required
 
-Username and password are required.
+method: GET
+<BASE_URL>/friends/<int:id>/
+ex: <BASE_URL>/friends/6/
 
-```
-GET <BASE_URL>/friends/6/
-
-```
-
-### response
-
-```json
+#### response:
 200 OK
+```json
 
 {
 	"id": 6,
@@ -643,22 +701,58 @@ GET <BASE_URL>/friends/6/
 }
 ```
 
-## List all favorites
+### Add a Friend:
 
-### request
+#### request:
+Authentication Required
 
-Username and password are required.
-
-```
-GET <BASE_URL>/favorites/
-
-```
-
-### response
+method: POST
+<BASE_URL>/friends/
 
 ```json
+{
+	"current_user": 1,
+	"friend": 4
+}
+```
+
+#### response:
+201 CREATED
+```json
+{
+	"id": 8,
+	"current_user": 1,
+	"friend": 4
+}
+```
+_______________________not working_______________
+### Delete a Friend:
+
+#### request:
+Authentication Required
+
+method: DELETE
+<BASE_URL>/friends/<int:id>/
+ex: <BASE_URL>/friends/4/
+
+#### response:
+```json
+Body not returned for response
+```
+________________________________________________
+
+### List all favorites:
+
+#### request:
+Username and password are required.
+
+method: GET 
+<BASE_URL>/favorites/
+
+#### response:
 200 OK
 
+```json
 [
 	{
 		"id": 1,
@@ -673,30 +767,65 @@ GET <BASE_URL>/favorites/
 		"created_at": "2022-11-17T19:16:30.587099Z"
 	}
 ]
-
 ```
 
-## Favorite detail page
+### Favorite detail page:
 
-### request
+#### request:
+Authentication Required.
 
-Username and password are required.
+method: GET 
+<BASE_URL>/favorites/int:id/
+ex: <BASE_URL>/favorites/2/
 
-```
-GET <BASE_URL>/favorites/2/
-
-```
-
-### response
-
-```json
+#### response:
 200 OK
-
+```json
 {
 	"id": 2,
 	"card": 2,
 	"user": 1,
 	"created_at": "2022-11-17T19:16:30.587099Z"
 }
-
 ```
+### Add a Favorite:
+
+#### request:
+Authentication Required
+
+method: POST
+<BASE_URL>/favorites/
+
+```json
+{
+	"current_user": 1,
+	"friend": 4
+}
+```
+
+#### response:
+201 CREATED
+```json
+{
+	"id": 8,
+	"current_user": 1,
+	"friend": 4
+}
+```
+
+_______________________not working_______________
+### Delete a Favorite:
+
+#### request:
+Authentication Required
+
+method: DELETE
+<BASE_URL>/favorites/<int:id>/
+ex: <BASE_URL>/favorites/4/
+
+
+#### response:
+```json
+Body not returned for response
+```
+________________________________________________
