@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .models import User, Card, Tag, Comment, Friendship, Favorite
-from .serializers import UserSerializer, CardSerializer, TagSerializer, FriendUserSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer
+from .serializers import UserSerializer, CardSerializer, TagSerializer, FriendUserSerializer, CommentSerializer, FriendSerializer, FavoriteSerializer, FriendInfoSerializer
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from itertools import chain
@@ -152,6 +152,15 @@ class FriendListCreateView(generics.ListCreateAPIView):
                 "error": "You are already friends with this user."
             }
             return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+
+class FriendInfoView(generics.ListAPIView):
+    friends = Friendship.objects.all()
+    serializer_class= FriendInfoSerializer
+    permission_classes=[]
+    peeps = []
+    for friend in friends:
+        peeps.append(friend.id)
+    queryset=User.objects.filter(id__in=peeps)
 
 class FriendDetailView(generics.RetrieveDestroyAPIView):
     #this gets and deletes a single Friend
