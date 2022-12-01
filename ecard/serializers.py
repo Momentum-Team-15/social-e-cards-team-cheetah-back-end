@@ -32,6 +32,13 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = ('id','title','user','border_style','border_color','font_family','font_color','text_alignment','outer_msg','inner_msg','created_at','updated_at','published', 'comments', 'background_color')
 
+class FriendInfoSerializer(serializers.ModelSerializer):
+    cards = CardSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id','name','bio','username','email', 'avatar', 'cards')
+
 class FriendUserSerializer(serializers.ModelSerializer):
     friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
 
@@ -41,11 +48,11 @@ class FriendUserSerializer(serializers.ModelSerializer):
 
 class FriendSerializer(serializers.ModelSerializer):
     current_user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    # friend = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    cards = CardSerializer(source='user.cards',many=True, read_only=True)
 
     class Meta:
         model = Friendship
-        fields = ('id', 'current_user','friend')
+        fields = ('id', 'current_user','friend','cards')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
