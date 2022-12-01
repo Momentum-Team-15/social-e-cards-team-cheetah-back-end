@@ -36,6 +36,7 @@ Documentation starts here: _____________________________________________________
 | BASE_URL/friends/int:pk/ | Friends detail page | GET, DELETE |
 | BASE_URL/favorites/ | list all favorite cards | GET, POST |
 | BASE_URL/favorites/int:pk/ | detail about favorited item | GET, DELETE |
+| BASE_URL/friends/info/ | all friends info | GET |
 
 # Social E-Card Endpoints 
 
@@ -826,4 +827,26 @@ PATCH  <BASE_URL>/auth/users/me/avatar/
 	"email": "email@email.com",
 	"avatar": "https://cheetahbucket2.s3.amazonaws.com/user_avatars/1hector_hQZnOAR.jpeg"
 }
+```
+
+## List all friends user info and also gives cards:
+
+#### request:
+Authentication Required
+<BASE_URL>/friends/info/
+
+#### response:
+
+```json
+[
+	{
+		"id": 9,
+		"name": null,
+		"bio": null,
+		"username": "person",
+		"email": "",
+		"avatar": null,
+		"cards": []
+	}
+]
 ```
